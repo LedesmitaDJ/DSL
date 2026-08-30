@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delincuencia Sin Límite v8 - SA-MP</title>
+
+    <!-- SEO Meta Tags -->
+    <link rel="canonical" href="https://web.com/" />
+    <meta name="description" content="Sitio web oficial del Servidor SAMP Delincuencia Sin Limite. Create una cuenta en Delincuencia Sin Limite SAMP.">
+    <meta name="keywords" content="SAMP, GTA San Andreas Multiplayer, DSL, Clan, Delincuencia Sin Limite, Clan SAMP, Server, Servidor SAMP, IP SAMP, Server SAMP, IP Server SAMP">
+    <meta name="robots" content="index, follow">
+    <meta name="author" content="Ledesmita">
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://web.com/">
+    <meta property="og:title" content="Delincuencia Sin Limite | Server SAMP">
+    <meta property="og:description" content="únete a la comunidad de Delincuencia Sin Limite, copia la IP del servidor SAMP y Juega en el Multijugador.">
+    <meta property="og:image" content="img/poster-og.png">
+    <meta name="theme-color" content="#8B1E1E">
+    <link rel="icon" type="image/png" href="DSL-logo.png">
+
+    <!-- Resource Hints -->
+    <link rel="dns-prefetch" href="//zeno.fm">
+    <link rel="preconnect" href="https://zeno.fm" crossorigin>
+
+    <!-- Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "VideoGameSeries",
+      "name": "DSL SAMP Server",
+      "url": "https://web.com/",
+      "description": "Comunidad oficial del servidor DSL de GTA San Andreas Multiplayer (SAMP) Delincuencia Sin Limite.",
+      "genre": "Multiplayer Online",
+      "author": {
+        "@type": "Organization",
+        "name": "Delincuencia Sin Limite"
+      },
+      "playMode": "MultiPlayer"
+    }
+    </script>
+
+    <!-- Fuente estilo GTA/Pricedown -->
+    <link href="https://fonts.cdnfonts.com/css/pricedown" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+        }
+
+        body, html {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: #000;
+        }
+
+        /* Contenedor del Fondo (Video + Imagen Fallback) */
+        .bg-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000 url('DSL-fondo.jpg') center/cover no-repeat;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        /* Elemento Video de Fondo */
+        .bg-video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            transform: translate(-50%, -50%);
+            object-fit: cover;
+            z-index: 1;
+        }
+
+        /* Capa oscura superpuesta al fondo/video para legibilidad */
+        .bg-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.5));
+            z-index: 2;
+        }
+
+        /* Franja Superior (Encabezado) */
+        .top-bar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(10, 10, 15, 0.85);
+            padding: 15px 0 20px 0;
+            text-align: center;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.05);
+            z-index: 3;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Logo arriba del texto */
+        .top-bar .logo-img {
+            max-width: 180px;
+            height: auto;
+            margin-bottom: 8px;
+            filter: drop-shadow(0px 4px 8px rgba(0, 0, 0, 0.8));
+        }
+
+        .top-bar h1 {
+            font-family: 'Pricedown Bl', 'Pricedown', 'Arial Black', sans-serif;
+            color: #cc0000;
+            font-size: 3.2rem;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 0px #000, -2px -2px 0px #000, 2px -2px 0px #000, -2px 2px 0px #000;
+            line-height: 1;
+        }
+
+        .top-bar p {
+            color: #ffffff;
+            font-size: 0.85rem;
+            font-weight: bold;
+            letter-spacing: 4px;
+            margin-top: 5px;
+            text-transform: uppercase;
+        }
+
+        /* Contenedor del Menú Principal */
+        .menu-container {
+            position: absolute;
+            top: 55%;
+            left: 50%;
+            transform: translate(-50%, -40%);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            z-index: 3;
+            width: 220px;
+        }
+
+        .menu-btn {
+            background: rgba(20, 20, 20, 0.85);
+            color: #ffffff;
+            font-family: 'Pricedown Bl', 'Pricedown', 'Arial Black', sans-serif;
+            font-size: 1.5rem;
+            padding: 8px 20px;
+            text-align: center;
+            text-decoration: none;
+            border: 2px solid #000000;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            transition: all 0.15s ease;
+            letter-spacing: 1px;
+            display: block;
+        }
+
+        .menu-btn:hover {
+            background: rgba(40, 40, 40, 0.95);
+            border-color: #ffffff;
+            color: #00ffcc;
+            transform: scale(1.03);
+        }
+
+        /* Modales Unificados */
+        .modal-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 10;
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-card {
+            background: rgba(0, 0, 0, 0.9);
+            border: 1px solid #333;
+            width: 90%;
+            max-width: 420px;
+            padding: 20px;
+            border-radius: 2px;
+            color: #fff;
+            box-shadow: 0 0 20px rgba(0,0,0,0.8);
+            font-size: 0.9rem;
+        }
+
+        /* Modal Ancho Exclusivo para Descargas */
+        .modal-card-wide {
+            max-width: 850px;
+            max-height: 85vh;
+            overflow-y: auto;
+        }
+
+        .modal-card h3 {
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .modal-card p {
+            margin-bottom: 12px;
+            line-height: 1.4;
+            color: #ccc;
+        }
+
+        .highlight-green {
+            color: #2ECC71;
+            font-weight: bold;
+        }
+
+        .highlight-yellow {
+            color: #F1C40F;
+            font-weight: bold;
+        }
+
+        .ip-box {
+            display: inline-flex;
+            align-items: center;
+            background: #111;
+            border: 1px solid #555;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-family: monospace;
+            color: #fff;
+            margin-left: 5px;
+        }
+
+        .btn-copy-icon {
+            background: transparent;
+            border: none;
+            color: #fff;
+            cursor: pointer;
+            margin-left: 8px;
+            font-size: 0.85rem;
+        }
+
+        .btn-copy-icon:hover {
+            color: #00ffcc;
+        }
+
+        .link-text {
+            color: #F1C40F;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+        .btn-close {
+            display: block;
+            margin: 20px auto 0 auto;
+            background: rgba(30, 30, 30, 0.9);
+            color: #fff;
+            border: 1px solid #fff;
+            padding: 4px 25px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+
+        .btn-close:hover {
+            background: #fff;
+            color: #000;
+        }
+
+        /* --- Tabla e información de monitoreo --- */
+        .table-container {
+            max-height: 180px;
+            overflow-y: auto;
+            margin-top: 10px;
+            border: 1px solid #222;
+            background: rgba(10, 10, 10, 0.8);
+        }
+
+        .monitor-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 0.85rem;
+        }
+
+        .monitor-table th {
+            color: #888;
+            font-size: 0.75rem;
+            padding: 8px 10px;
+            border-bottom: 1px solid #333;
+            text-transform: uppercase;
+        }
+
+        .monitor-table td {
+            padding: 6px 10px;
+            border-bottom: 1px solid #1a1a1a;
+            color: #ccc;
+        }
+
+        .table-container::-webkit-scrollbar {
+            width: 4px;
+        }
+        .table-container::-webkit-scrollbar-thumb {
+            background: #444;
+        }
+
+        /* --- Estilos para el Modal de Descargas --- */
+        .download-header {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .download-header h2 {
+            font-family: 'Pricedown Bl', 'Pricedown', 'Arial Black', sans-serif;
+            font-size: 2.2rem;
+            color: #fff;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 0px #000;
+            line-height: 1;
+        }
+
+        .download-subtitle {
+            color: #cc0000;
+            font-size: 0.75rem;
+            font-weight: bold;
+            letter-spacing: 2px;
+            margin-top: 5px;
+            text-transform: uppercase;
+        }
+
+        .download-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .download-card {
+            background: rgba(15, 15, 15, 0.9);
+            border: 1px solid rgba(255, 0, 0, 0.3);
+            border-radius: 6px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .download-card-title {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .download-desc {
+            font-size: 0.78rem;
+            color: #aaa;
+            margin-bottom: 12px;
+            line-height: 1.3;
+        }
+
+        .req-title {
+            color: #cc0000;
+            font-size: 0.72rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+
+        .req-list {
+            list-style: none;
+            padding-left: 0;
+            margin-bottom: 15px;
+            flex-grow: 1;
+        }
+
+        .req-list li {
+            font-size: 0.75rem;
+            color: #bbb;
+            margin-bottom: 5px;
+            position: relative;
+            padding-left: 12px;
+            line-height: 1.3;
+        }
+
+        .req-list li::before {
+            content: "◆";
+            color: #00ffcc;
+            font-size: 0.5rem;
+            position: absolute;
+            left: 0;
+            top: 2px;
+        }
+
+        .download-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .btn-dl {
+            background: rgba(10, 10, 10, 0.9);
+            color: #fff;
+            border: 1px solid #444;
+            padding: 8px 10px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            text-align: center;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .btn-dl:hover {
+            background: #cc0000;
+            border-color: #ff0000;
+            color: #fff;
+            transform: translateY(-2px);
+        }
+
+        /* Footer */
+        .footer-text {
+            position: absolute;
+            bottom: 15px;
+            width: 100%;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1rem;
+            font-style: normal;
+            z-index: 3;
+        }
+
+        /* Adaptabilidad para Celulares */
+        @media (max-width: 600px) {
+            .top-bar .logo-img { max-width: 65px; }
+            .top-bar h1 { font-size: 2rem; }
+            .top-bar p { font-size: 0.65rem; }
+            .menu-container { width: 180px; top: 58%; }
+            .menu-btn { font-size: 1.2rem; padding: 6px 15px; }
+            .download-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Contenedor del Fondo con Video e Imagen de Respaldo -->
+    <div class="bg-container">
+        <video class="bg-video" autoplay loop muted playsinline poster="DSL-fondo.jpg">
+            <!-- Reemplaza la ruta 'fondo.mp4' por la URL o ubicación de tu video -->
+            <source src="https://www.dropbox.com/scl/fi/0masl9tw2mysdb8f8qkns/DSL-fondo.webm?rlkey=3z53btjx6cvoon3jxwqsoy5ui&st=2dz63d6n&raw=1" type="video/mp4">
+        </video>
+        <div class="bg-overlay"></div>
+    </div>
+
+    <!-- Encabezado con Logo Arriba -->
+    <div class="top-bar">
+        <img src="DSL-logo.png" alt="Logo DSL" class="logo-img">
+        <h1>DELINCUENCIA SIN LIMITE V8</h1>
+        <p>DM - TDM - CNR</p>
+    </div>
+
+    <!-- Menú Estilo GTA -->
+    <div class="menu-container">
+        <a href="samp://144.217.174.215:1328" class="menu-btn">JUGAR</a>
+        <button class="menu-btn" onclick="openModal('modal-descargas')">DESCARGAS</button>
+        <button class="menu-btn" onclick="openModal('modal-monitor')">MONITOREO</button>
+        <button class="menu-btn" onclick="openModal('modal-info')">INFORMACIÓN</button>
+        <button class="menu-btn" onclick="openModal('modal-creditos')">CRÉDITOS</button>
+        <button class="menu-btn" onclick="closeSite()">SALIR</button>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer-text">
+        Delincuencia Sin Límite © <span id="currentYear"></span>
+    </div>
+
+    <!-- Modal Centro de Descargas -->
+    <div class="modal-overlay" id="modal-descargas">
+        <div class="modal-card modal-card-wide">
+            <div class="download-header">
+                <h2>CENTRO DE DESCARGAS</h2>
+                <div class="download-subtitle">DESPLIEGA EL SOFTWARE OFICIAL PARA INGRESAR A DELINCUENCIA SIN LÍMITE SAMP</div>
+            </div>
+
+            <div class="download-grid">
+                <!-- Columna PC -->
+                <div class="download-card">
+                    <div class="download-card-title">
+                        <i class="fas fa-desktop" style="color: #00e5ff;"></i> SAMP PC
+                    </div>
+                    <div class="download-desc">
+                        Es un mod multijugador gratuito y masivo para la versión de PC de Grand Theft Auto: San Andreas.
+                    </div>
+                    <div class="req-title">REQUISITOS MÍNIMOS:</div>
+                    <ul class="req-list">
+                        <li><b>SO:</b> Windows 2000, XP, 7, 10 o posterior.</li>
+                        <li><b>Procesador:</b> Intel Pentium III a 1 GHz o AMD Athlon equivalente.</li>
+                        <li><b>RAM:</b> 256 MB (se recomiendan 512 MB para mayor fluidez).</li>
+                        <li><b>Gráficos (GPU):</b> 64 MB de VRAM (DirectX 9).</li>
+                        <li><b>Almacenamiento:</b> Aprox. 4.5 GB para la instalación.</li>
+                    </ul>
+                    <div class="download-actions">
+                        <a href="https://www.mediafire.com/file/s1wyi5ekq8pqb7b/GTA_SAN_ANDREAS_-_FULL.rar/file" target="_blank" class="btn-dl"><i class="fas fa-download"></i> DESCARGAR GTA:SA FULL</a>
+                        <a href="https://www.mediafire.com/file/85atpke617l3qo5/GTA+SA+Lite.exe/file" target="_blank" class="btn-dl"><i class="fas fa-download"></i> DESCARGAR GTA:SA LITE</a>
+                        <a href="https://gta-multiplayer.cz/downloads/sa-mp-0.3.7-R5-2-MP-install.exe" target="_blank" class="btn-dl"><i class="fas fa-download"></i> DESCARGAR CLIENTE (PC)</a>
+                    </div>
+                </div>
+
+                <!-- Columna Android -->
+                <div class="download-card">
+                    <div class="download-card-title">
+                        <i class="fas fa-mobile-alt" style="color: #00ffcc;"></i> SAMP ANDROID
+                    </div>
+                    <div class="download-desc">
+                        Es una adaptación no oficial del clásico San Andreas Multiplayer para PC. Permite jugar al icónico GTA San Andreas online en tu celular.
+                    </div>
+                    <div class="req-title">REQUISITOS MÍNIMOS:</div>
+                    <ul class="req-list">
+                        <li><b>SO:</b> Android 7.0 o superior</li>
+                        <li><b>RAM:</b> 2 GB o superior</li>
+                        <li><b>Procesador:</b> Quad-core (4 núcleos) de 1.4 GHz o superior.</li>
+                        <li><b>Almacenamiento:</b> 3.5 GB libres</li>
+                        <li><b>Conexión:</b> Estable (Wi-Fi o 4G/5G)</li>
+                    </ul>
+                    <div class="download-actions">
+                        <a href="https://play.google.com/store/apps/details?id=app.sampdroid.launcher" target="_blank" class="btn-dl"><i class="fas fa-download"></i> LAUNCHER 1: SAMPDROID MOBILE</a>
+                        <a href="https://play.google.com/store/apps/details?id=com.samp.x1y2z" target="_blank" class="btn-dl"><i class="fas fa-download"></i> LAUNCHER 2: SAMP MOBILE</a>
+                        <a href="https://play.google.com/store/apps/details?id=com.sampunity.game" target="_blank" class="btn-dl"><i class="fas fa-download"></i> LAUNCHER 3: SAMP LAUNCHER UNITY</a>
+                    </div>
+                </div>
+            </div>
+
+            <button class="btn-close" onclick="closeModal('modal-descargas')">Cerrar</button>
+        </div>
+    </div>
+
+    <!-- Modal Monitoreo del Servidor -->
+    <div class="modal-overlay" id="modal-monitor">
+        <div class="modal-card">
+            <h3>Monitoreo del Servidor</h3>
+            <p>Jugadores en línea: <span class="highlight-yellow" id="fg-contador-players">Cargando...</span></p>
+            <p>Mapa Actual: <span class="highlight-green" id="fg-mapa-actual">Cargando...</span></p>
+
+            <div class="table-container">
+                <table class="monitor-table">
+                    <thead>
+                        <tr>
+                            <th>Nickname</th>
+                            <th>Score</th>
+                            <th>Ping</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabla-fg-players">
+                        <tr>
+                            <td colspan="3" style="text-align: center; font-size: 0.8rem; color: #888;">Conectando al servidor...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <button class="btn-close" onclick="closeModal('modal-monitor')">Cerrar</button>
+        </div>
+    </div>
+
+    <!-- Modal Información -->
+    <div class="modal-overlay" id="modal-info">
+        <div class="modal-card">
+            <h3>Información</h3>
+            <p>Delincuencia Sin Límite es un <span class="highlight-green">servidor de SA-MP</span></p>
+            
+            <p>
+                Nuestra IP: 
+                <span class="ip-box">
+                    <span id="ip-text">144.217.174.215:1328</span>
+                    <button class="btn-copy-icon" onclick="copyIP()" title="Copiar IP">
+                        <i class="far fa-copy"></i>
+                    </button>
+                </span>
+            </p>
+
+            <p>Nuestro Discord: <a href="https://discord.gg/HccVhFbdB" target="_blank" class="link-text">Link</a></p>
+
+            <p>
+                Los modos principales son <span class="highlight-yellow">DM, TDM y CnR</span> pero tiene  
+                <span class="highlight-yellow">sistema de clanes, conquistas, eventos y muchos más.</span>
+            </p>
+
+            <button class="btn-close" onclick="closeModal('modal-info')">Cerrar</button>
+        </div>
+    </div>
+
+    <!-- Modal Créditos -->
+    <div class="modal-overlay" id="modal-creditos">
+        <div class="modal-card">
+            <h3>Créditos</h3>
+            <p>Desarrollador del servidor: <span class="highlight-green">Staff DSL</span></p>
+            <p>Desarrollador de la web: <a href="https://www.youtube.com/@LedesmitaDJ" target="_blank" class="highlight-green" style="text-decoration: underline;">Ledesmita</a></p>
+
+            <button class="btn-close" onclick="closeModal('modal-creditos')">Cerrar</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const currentYear = new Date().getFullYear();
+            document.getElementById('currentYear').textContent = currentYear;
+        });
+    </script>
+
+    <!-- Script de Monitoreo del Servidor intacto -->
+    <script>
+        // Iframe de Game-State
+        const urlIframeSAMP = "https://www.game-state.com/iframe.php?ip=144.217.174.215&port=1328&bgcolor=363636&bordercolor=26A8FF&fieldcolor=FFFFFF&valuecolor=EDEDED&oddrowscolor=4D4D4D&showgraph=true&showplayers=true&graphvalues=EDEDED&graphaxis=FFFFFF&width=220&graph_height=105&plist_height=101&font_size=9";
+
+        let indiceProxyActual = 0;
+
+        function obtenerUrlProxyJSONP(urlDestino, indice) {
+            const timestamp = new Date().getTime();
+            const proxies = [
+                `https://api.allorigins.win/get?url=${encodeURIComponent(urlDestino)}&callback=recibirDatosSAMP&_=${timestamp}`,
+                `https://api.allorigins.me/get?url=${encodeURIComponent(urlDestino)}&callback=recibirDatosSAMP&_=${timestamp}`,
+                `https://allorigins.win/get?url=${encodeURIComponent(urlDestino)}&callback=recibirDatosSAMP&_=${timestamp}`
+            ];
+            return proxies[indice % proxies.length];
+        }
+
+        window.recibirDatosSAMP = function (data) {
+            const playersList = document.getElementById('tabla-fg-players');
+            const txtContador = document.getElementById('fg-contador-players');
+            const txtMapa = document.getElementById('fg-mapa-actual');
+
+            if (!playersList) return;
+
+            try {
+                const htmlCrudo = data.contents;
+                if (!htmlCrudo) throw new Error("Contenido vacío recibido desde el proxy");
+
+                const contenedorVirtual = document.createElement('div');
+                contenedorVirtual.innerHTML = htmlCrudo;
+
+                const textoPlano = (contenedorVirtual.innerText || contenedorVirtual.textContent || "").toLowerCase().replace(/\s+/g, ' ');
+
+                let totalJugadores = "0 / 40";
+                const posPlayers = textoPlano.indexOf("players:");
+                if (posPlayers !== -1) {
+                    let fragmento = textoPlano.substring(posPlayers + 8, posPlayers + 26).trim();
+                    let matchArr = fragmento.match(/(\d+)\s*\/\s*(\d+)/);
+                    if (matchArr && matchArr[1] && matchArr[2]) {
+                        totalJugadores = matchArr[1] + " / " + matchArr[2];
+                    }
+                }
+
+                let mapaActual = "San Andreas";
+                let posMapa = textoPlano.indexOf("mapname:");
+                let longitudPalabra = 8;
+                if (posMapa === -1) {
+                    posMapa = textoPlano.indexOf("map:");
+                    longitudPalabra = 4;
+                }
+                if (posMapa !== -1) {
+                    let fragmentoMapa = textoPlano.substring(posMapa + longitudPalabra, posMapa + longitudPalabra + 25).trim();
+                    let finMapa = fragmentoMapa.indexOf("gamemode");
+                    if (finMapa === -1) finMapa = fragmentoMapa.indexOf("status");
+
+                    if (finMapa !== -1) {
+                        mapaActual = fragmentoMapa.substring(0, finMapa).trim();
+                    } else {
+                        mapaActual = fragmentoMapa.split(' ')[0];
+                    }
+                }
+
+                mapaActual = mapaActual.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+
+                if (txtContador) txtContador.innerText = totalJugadores;
+                if (txtMapa) txtMapa.innerText = mapaActual || "San Andreas";
+
+                const filasIframe = contenedorVirtual.getElementsByTagName('tr');
+                const listaJugadoresReales = [];
+
+                for (let j = 0; j < filasIframe.length; j++) {
+                    const celdas = filasIframe[j].getElementsByTagName('td');
+
+                    if (celdas.length >= 2) {
+                        const nombreLimpio = celdas[0].innerText ? celdas[0].innerText.trim() : celdas[0].textContent.trim();
+                        const scoreLimpio = celdas[1].innerText ? celdas[1].innerText.trim() : celdas[1].textContent.trim();
+                        const scoreNumero = parseInt(scoreLimpio, 10);
+
+                        if (
+                            nombreLimpio.toLowerCase() !== 'players' &&
+                            nombreLimpio.toLowerCase() !== 'players:' &&
+                            nombreLimpio.toLowerCase() !== 'player' &&
+                            nombreLimpio.toLowerCase() !== 'score' &&
+                            nombreLimpio.toLowerCase() !== 'mapname:' &&
+                            nombreLimpio.toLowerCase() !== 'gamemode:' &&
+                            nombreLimpio.length > 1 &&
+                            !isNaN(scoreNumero)
+                        ) {
+                            listaJugadoresReales.push({
+                                name: nombreLimpio,
+                                score: scoreNumero
+                            });
+                        }
+                    }
+                }
+
+                playersList.innerHTML = '';
+
+                if (listaJugadoresReales.length === 0) {
+                    playersList.innerHTML = `<tr><td colspan="3" class="loading-status" style="text-align: center; font-size: 0.8rem;">Sin jugadores en línea.</td></tr>`;
+                } else {
+                    listaJugadoresReales.forEach((player) => {
+                        const pingSimulado = Math.floor(Math.random() * (150 - 50 + 1)) + 50;
+                        const colorPing = pingSimulado > 115 ? '#ff8c00' : '#a7ff3b';
+
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                    <td style="color: #00e5ff; font-weight: 500;">${player.name}</td>
+                    <td>${player.score}</td>
+                    <td style="color: ${colorPing}; font-family: monospace;">${pingSimulado}ms</td>
+                `;
+                        playersList.appendChild(row);
+                    });
+                }
+
+                indiceProxyActual = 0;
+
+            } catch (error) {
+                console.error("Error interpretando paquete actual:", error);
+                manejarFalloProxy();
+            }
+        };
+
+        function manejarFalloProxy() {
+            const playersList = document.getElementById('tabla-fg-players');
+            indiceProxyActual++;
+
+            if (playersList && (playersList.innerHTML.includes('Conectando') || playersList.children.length === 0)) {
+                playersList.innerHTML = `<tr><td colspan="3" class="loading-status" style="color: #ffaa00; text-align: center; font-size: 0.8rem;">Reconectando...</td></tr>`;
+            }
+
+            ejecutarInyeccionJSONP();
+        }
+
+        function ejecutarInyeccionJSONP() {
+            const scriptAnterior = document.getElementById('script-jsonp-samp');
+            if (scriptAnterior) scriptAnterior.remove();
+
+            const script = document.createElement('script');
+            script.id = 'script-jsonp-samp';
+            script.src = obtenerUrlProxyJSONP(urlIframeSAMP, indiceProxyActual);
+
+            script.onerror = function () {
+                manejarFalloProxy();
+            };
+
+            document.body.appendChild(script);
+        }
+
+        function consultarMonitorSAMP() {
+            indiceProxyActual = 0;
+            ejecutarInyeccionJSONP();
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            consultarMonitorSAMP();
+            setInterval(consultarMonitorSAMP, 45000);
+        });
+
+        // Funciones de navegación de Modales
+        function openModal(id) {
+            document.getElementById(id).style.display = 'flex';
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).style.display = 'none';
+        }
+
+        function copyIP() {
+            const ip = document.getElementById('ip-text').innerText;
+            navigator.clipboard.writeText(ip);
+            alert("IP copiada al portapapeles: " + ip);
+        }
+
+        function closeSite() {
+            if (confirm("¿Deseas salir del sitio web?")) {
+                window.close();
+            }
+        }
+
+        // Cerrar modal al hacer clic fuera de la caja
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal-overlay')) {
+                event.target.style.display = "none";
+            }
+        }
+    </script>
+</body>
+</html>
